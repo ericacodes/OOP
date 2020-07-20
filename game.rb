@@ -16,27 +16,38 @@ class Game
       num_2 = rand(21)
       puts question(num_1, num_2)
       print "> "
-      # answer = gets.chomp
       validate(num_1, num_2, gets.chomp)
       puts "#{@p1.name} #{@p1.lives}/3 vs #{@p2.name} #{@p2.lives}/3"
-      puts "----- NEW TURN -----"
-      change_player
+      if (!has_player_died?)
+        change_player
+        puts "----- NEW TURN -----"
+      else 
+        puts "#{winner.name} wins with a score of #{winner.lives}/3"
+        puts "----- GAME OVER -----"
+        puts "Good bye!"
+      end
     end
   end
 
   def get_player_names
     puts "Enter name for first player"
     print "> "
-    p1_name = gets.chomp
-    @p1.name = p1_name
+    @p1.name = gets.chomp
     puts"Enter name for second player"
     print "> "
-    p2_name = gets.chomp
-    @p2.name = p2_name
+    @p2.name = gets.chomp
   end
 
   def has_player_died?
     @p1.lives <= 0 || @p2.lives <= 0
+  end
+
+  def winner
+    if @p1.lives <= 0
+      return @p2
+    else
+      return @p1
+    end
   end
 
   def question(num_1, num_2)
